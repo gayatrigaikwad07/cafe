@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 
 public class UserUtils {
 
-    public UserUtils(){
-
+    public UserUtils() {
     }
-    public static ResponseEntity<String> getResponseEntity(String ResponseMessage, HttpStatus httpStatus){
-        return new ResponseEntity<String> ("{\"message\":\""+ResponseMessage+ "\"}", HttpStatus.INTERNAL_SERVER_ERROR);
+
+    public static ResponseEntity<String> getResponseEntity(String responseMessage, HttpStatus httpStatus) {
+        return new ResponseEntity<String>("{\"message\":\"" + responseMessage + "\"}", httpStatus);
     }
 }

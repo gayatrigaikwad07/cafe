@@ -4,63 +4,73 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
-@NamedQuery (name = "NewUser.findByEmailId", query="select u from NewUser u where u.email=:email")
+import java.util.Collection;
+import java.util.Collections;
+
+@NamedQuery(name = "NewUser.findByEmailId", query="select u from NewUser u where u.email=:email")
 @Data
 @Entity
 @DynamicUpdate
 @DynamicInsert
 @Table(name="NUser")
-public class NewUser implements Serializable {
+public class NewUser implements Serializable, UserDetails {
     private static final long serialVersionULD = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name ="id")
     private Integer id;
 
-    @Column(name ="name",insertable = false, updatable = false)
+    @Column(name ="name")
     private String name;
 
-    @Column(name ="name",insertable = false, updatable = false)
+    @Column(name ="contactNumber")
     private String contactNumber;
 
-    @Column(name ="email",insertable = false, updatable = false)
+    @Column(name ="email")
     private String email;
 
-    @Column(name ="password",insertable = false, updatable = false)
+    @Column(name ="password")
     private String password;
 
-    @Column(name ="status",insertable = false, updatable = false)
+    @Column(name ="status")
     private String status;
 
-    @Column(name ="role",insertable = false, updatable = false)
+    @Column(name ="role")
     private String role;
 
-
-    public void setStatus(String status) {
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + (role != null ? role.toUpperCase() : "USER")));
     }
 
-    public void setPassword(String password) {
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
-    public void setEmail(String email) {
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setContactNumber(String contactNumber) {
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setName(String name) {
-
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public void setRole(String role) {
-    }
-
-    public Object getAuthorities() {
-
-        return null;
+    @Override
+    public boolean isEnabled() {
+        return "true".equalsIgnoreCase(this.status);
     }
 }
