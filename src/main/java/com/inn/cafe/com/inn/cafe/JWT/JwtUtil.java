@@ -103,17 +103,37 @@ public class JwtUtil {
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
+
         return Jwts.builder()
                 .setClaims(claims)
+                .claim("roles", claims)  // Adding roles to the JWT
+                .setIssuedAt(new Date())
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
+//    public String generateToken(UserDetails userDetails) {
+//        List<GrantedAuthority> authorities = (List<GrantedAuthority>) userDetails.getAuthorities();
+//        String roles = authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
+//
+//        return Jwts.builder()
+//                .setSubject(userDetails.getUsername())
+//                .claim("roles", roles)  // Adding roles to the JWT
+//                .setIssuedAt(new Date())
+//                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour expiry
+//                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+//                .compact();
+//    }
+
 
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUserName(token);
         return username.equals(userDetails.getUsername ()) && !isTokenExpired(token);
+    }
+
+    public String generateToken(UserDetails userDetails) {
+        return null;
     }
 }

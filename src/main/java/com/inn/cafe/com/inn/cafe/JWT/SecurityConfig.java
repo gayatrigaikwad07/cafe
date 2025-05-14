@@ -13,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
+import static org.springframework.boot.webservices.client.WebServiceMessageSenderFactory.http;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -22,6 +25,7 @@ public class SecurityConfig {
 
     @Autowired
     private JwtFilter jwtFilter;
+
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
@@ -37,13 +41,27 @@ public class SecurityConfig {
         return NoOpPasswordEncoder.getInstance();
     }
 
+
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .authorizeHttpRequests()
+                .requestMatchers("user/login", "user/register").permitAll()  // Make sure /login is open
+                .anyRequest().authenticated()  // Ensure other requests are authenticated
+                .and()
+                .formLogin().permitAll()
+                .getClass ();
+                //.http();
+    }
+
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors().and()
             .csrf().disable()
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/user/signup", "/user/login", "/user/forgotPassword").permitAll()
+                .requestMatchers("/user/signup", "/user/login", "/user/forgotPassword","/user/get").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
@@ -53,4 +71,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
+
 }

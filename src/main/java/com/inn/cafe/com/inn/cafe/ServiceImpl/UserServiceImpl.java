@@ -83,19 +83,23 @@
 
 package com.inn.cafe.com.inn.cafe.ServiceImpl;
 
-import com.inn.cafe.com.inn.cafe.POJO.NewUser;
+import com.inn.cafe.com.inn.cafe.JWT.CustomerUserDetailService;
+import com.inn.cafe.com.inn.cafe.JWT.JwtFilter;
+import com.inn.cafe.com.inn.cafe.JWT.JwtUtil;
 import com.inn.cafe.com.inn.cafe.Service.UserService;
-import com.inn.cafe.com.inn.cafe.Utils.UserUtils;
-import com.inn.cafe.com.inn.cafe.constents.UserConstents;
+import com.inn.cafe.com.inn.cafe.Wrapper.UserWrapper;
 import com.inn.cafe.com.inn.cafe.dao.UserDao;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 @Slf4j
@@ -104,41 +108,102 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private CustomerUserDetailService customerUserDetailsService;
+
+
+    @Autowired
+    JwtFilter jwtFilter;
+
+    @Getter
+    private com.inn.cafe.com.inn.cafe.POJO.NewUser userDetails;
+
+
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    private JwtUtil jwtUtil;
+    private UserDao userRepository;
+
+
+// Only for debugging; remove in production
+
+
+
+    @Override
+    public ResponseEntity<String> login(Map<String, String> requestMap) {
+//        log.info("Inside login");
+        log.info ("Inside login controller with request: {}", requestMap);
+
+        String email = requestMap.get ("email");
+        String password = requestMap.get ("password");
+
+        log.info ("Email: {}", email);
+        log.info ("Password: {}", password);
+
+
+//        try {
+//            email = requestMap.get ("email");
+//            password = requestMap.get ("password");
+//
+//            Authentication auth = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(email, password)
+//            );
+//
+//            if (auth.isAuthenticated()) {
+//                UserDetails userDetails = customerUserDetailsService.loadUserByUsername(email);
+//
+//                if (userDetails.isEnabled()) {
+//                    String jwt = jwtUtil.generateToken(userDetails);
+//                    return ResponseEntity.ok(jwt);
+//                } else {
+//                    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+//                            .body("User account is inactive.");
+//                }
+//            } else {
+//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                        .body("Invalid credentials.");
+//            }
+//        } catch (Exception e) {
+//            log.error("Login error: ", e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("An error occurred during login: " + e.getMessage());
+//        }
+//    }
+
+
+        //@Override
+        return null;
+    }
+
     @Override
     public ResponseEntity<String> signUp(Map<String, String> requestMap) {
-        try {
-            log.info("Inside Signup {}", requestMap);
+        return null;
+    }
 
-            if (validateSignMap(requestMap)) {
-                NewUser newUser = userDao.findByEmail(requestMap.get("email"));
-                if (Objects.isNull(newUser)) {
-                    userDao.save(getUserFromMap(requestMap));
-                    return UserUtils.getResponseEntity("Successfully Registered", HttpStatus.OK);
-                } else {
-                    return UserUtils.getResponseEntity("Email Already Exists", HttpStatus.BAD_REQUEST);
-                }
-            } else {
-                return UserUtils.getResponseEntity(UserConstents.INVALID_DATA, HttpStatus.BAD_REQUEST);
+    @Override
+    public ResponseEntity<String> log(Map<String, String> requestMap) {
+        return null;
+    }
+
+    //@Override
+    public ResponseEntity<List<UserWrapper>> getAllUser() {
+        try{
+            //return UserService.getAllUser();
+            if(jwtFilter.isAdmin ()){
+                return new ResponseEntity<> (userDao.getAllUser (),HttpStatus.OK);
+
             }
+            else{
+                return new ResponseEntity<> (new ArrayList<> (),HttpStatus.UNAUTHORIZED);
+            }
+
         } catch (Exception ex) {
-            log.error("Error during signup", ex);
-            return UserUtils.getResponseEntity(UserConstents.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error ("{}", ex);
         }
+        return new ResponseEntity<List<UserWrapper>> (new ArrayList<> (), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private boolean validateSignMap(Map<String, String> requestMap) {
-        return requestMap.containsKey("name") && requestMap.containsKey("contactNumber")
-                && requestMap.containsKey("email") && requestMap.containsKey("password");
-    }
 
-    private NewUser getUserFromMap(Map<String, String> requestMap) {
-        NewUser newUser = new NewUser();
-        newUser.setName(requestMap.get("name"));
-        newUser.setContactNumber(requestMap.get("contactNumber"));
-        newUser.setEmail(requestMap.get("email"));
-        newUser.setPassword(requestMap.get("password"));
-        newUser.setStatus(requestMap.get("status"));
-        newUser.setRole(requestMap.get("role"));
-        return newUser;
-    }
 }

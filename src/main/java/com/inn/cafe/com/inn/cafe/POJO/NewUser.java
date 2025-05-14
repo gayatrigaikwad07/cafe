@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 @NamedQuery(name = "NewUser.findByEmailId", query="select u from NewUser u where u.email=:email")
+@NamedQuery (name= "NewUser.getAllUser", query="select new com.inn.cafe.com.inn.cafe.Wrapper.UserWrapper(u.id,u.name,u.email,u.contactNumber, u.status) from NewUser u where u.role='NewUser'" )
+
 @Data
 @Entity
 @DynamicUpdate
@@ -43,6 +45,10 @@ public class NewUser implements Serializable, UserDetails {
 
     @Column(name ="role")
     private String role;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
