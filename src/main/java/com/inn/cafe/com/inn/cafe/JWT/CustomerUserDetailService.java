@@ -16,12 +16,10 @@ public class CustomerUserDetailService implements UserDetailsService {
     @Autowired
     private UserDao userDao;
 
-    private NewUser userDetail;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info ("Inside loadUserByUsername {}", username);
-        userDetail = userDao.findByEmail (username);
+        NewUser userDetail = userDao.findByEmail (username);
         if (userDetail != null) {
             return userDetail;
         } else {

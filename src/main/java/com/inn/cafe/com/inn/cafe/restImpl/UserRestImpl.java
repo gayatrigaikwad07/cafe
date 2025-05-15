@@ -57,19 +57,19 @@ public class UserRestImpl implements UserRest {
     }
 
 //    @Override
-//    public ResponseEntity<String> update() {
+//    public ResponseEntity<String> update(Map<String, String> requestMap) {
 //        return null;
 //    }
 
-//    @Override
-//    public ResponseEntity<String> update(Map<String, String> requestMap) {
-//        try{
-//            return userService.update(requestMap);
-//
-//        }
-//        catch (Exception ex){
-//            ex.printStackTrace ();
-//        }
-//        return UserUtils.getResponseEntity(UserConstents, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+
+    @Override
+   public ResponseEntity<String> update(Map<String, String> requestMap) {
+       try{
+            return userService.update(requestMap);
+
+        }
+       catch (Exception ex){
+           ex.printStackTrace ();        }
+        return UserUtils.getResponseEntity(UserConstents, HttpStatus.INTERNAL_SERVER_ERROR);
+   }
 }

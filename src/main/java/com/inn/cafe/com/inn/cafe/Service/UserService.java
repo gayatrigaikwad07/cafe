@@ -24,4 +24,6 @@ public interface UserService {
     static ResponseEntity<List<UserWrapper>> getAllUser() {
         return null;
     }
+
+    ResponseEntity<String> update(Map<String, String> requestMap);
 }

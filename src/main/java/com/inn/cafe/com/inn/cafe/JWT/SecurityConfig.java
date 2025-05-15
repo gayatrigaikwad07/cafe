@@ -61,7 +61,7 @@ public class SecurityConfig {
             .cors().and()
             .csrf().disable()
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/user/signup", "/user/login", "/user/forgotPassword","/user/get").permitAll()
+                .requestMatchers("/user/signup", "/user/login", "/user/forgotPassword","/user/get", "/user/update").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

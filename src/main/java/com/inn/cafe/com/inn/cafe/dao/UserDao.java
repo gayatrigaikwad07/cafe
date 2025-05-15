@@ -25,5 +25,7 @@ public interface UserDao extends JpaRepository<NewUser,Integer> {
 //        return null;
 //    }
 
+
+
     Optional<NewUser> findAllById(int id);
 }

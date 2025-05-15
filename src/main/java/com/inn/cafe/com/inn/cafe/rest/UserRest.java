@@ -25,6 +25,8 @@ public interface UserRest {
     public default ResponseEntity<List<UserWrapper>> getAllUser() {
         return null;
     }
+    @PostMapping(path ="/update")
+    public  ResponseEntity<String> update(@RequestBody(required = true) Map<String,String> requestMap);
 
 //    @PostMapping(path = "/update")
 //    //public ResponseEntity<String> update(RequestBody(required=true)Map
