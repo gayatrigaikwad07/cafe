@@ -14,6 +14,9 @@ public interface UserService {
     ResponseEntity<String> signUp(Map<String, String> requestMap);
 
     ResponseEntity<String> log(Map<String, String> requestMap);
+    //ResponseEntity<String> get(Map<String, String> requestMap);
+
+    //ResponseEntity<String> update(Map<String, String> requestMap);
 
 
     //public ResponseEntity<List<UserWrapper>> getAllUser();

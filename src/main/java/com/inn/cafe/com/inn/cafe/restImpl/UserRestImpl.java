@@ -3,7 +3,6 @@ package com.inn.cafe.com.inn.cafe.restImpl;
 import com.inn.cafe.com.inn.cafe.Service.UserService;
 import com.inn.cafe.com.inn.cafe.Utils.UserUtils;
 import com.inn.cafe.com.inn.cafe.Wrapper.UserWrapper;
-import com.inn.cafe.com.inn.cafe.constents.UserConstents;
 import com.inn.cafe.com.inn.cafe.rest.UserRest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,12 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
+import static com.inn.cafe.com.inn.cafe.constents.UserConstents.SOMETHING_WENT_WRONG;
+
 @RestController
 public class UserRestImpl implements UserRest {
 
     @Autowired
     UserService userService;
     private Map<String, String> requestMap;
+    private String UserConstents;
 
     @Override
     public ResponseEntity<String> signUp(Map<String, String> requestMap) {
@@ -29,7 +31,7 @@ public class UserRestImpl implements UserRest {
         } catch (Exception ex) {
             ex.printStackTrace();
 
-            return UserUtils.getResponseEntity(UserConstents.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+            return UserUtils.getResponseEntity(SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
 
@@ -45,7 +47,7 @@ public class UserRestImpl implements UserRest {
             ex.printStackTrace ();
 
         }
-        return UserUtils.getResponseEntity(UserConstents.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+        return UserUtils.getResponseEntity(SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
@@ -53,4 +55,21 @@ public class UserRestImpl implements UserRest {
     public ResponseEntity<List<UserWrapper>> getAllUser() {
         return null;
     }
+
+//    @Override
+//    public ResponseEntity<String> update() {
+//        return null;
+//    }
+
+//    @Override
+//    public ResponseEntity<String> update(Map<String, String> requestMap) {
+//        try{
+//            return userService.update(requestMap);
+//
+//        }
+//        catch (Exception ex){
+//            ex.printStackTrace ();
+//        }
+//        return UserUtils.getResponseEntity(UserConstents, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 }

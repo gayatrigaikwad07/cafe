@@ -86,8 +86,11 @@ package com.inn.cafe.com.inn.cafe.ServiceImpl;
 import com.inn.cafe.com.inn.cafe.JWT.CustomerUserDetailService;
 import com.inn.cafe.com.inn.cafe.JWT.JwtFilter;
 import com.inn.cafe.com.inn.cafe.JWT.JwtUtil;
+import com.inn.cafe.com.inn.cafe.POJO.NewUser;
 import com.inn.cafe.com.inn.cafe.Service.UserService;
+import com.inn.cafe.com.inn.cafe.Utils.UserUtils;
 import com.inn.cafe.com.inn.cafe.Wrapper.UserWrapper;
+import com.inn.cafe.com.inn.cafe.constents.UserConstents;
 import com.inn.cafe.com.inn.cafe.dao.UserDao;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -100,6 +103,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -186,6 +190,32 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<String> log(Map<String, String> requestMap) {
         return null;
     }
+
+//    @Override
+//    public ResponseEntity<String> update(Map<String, String> requestMap) {
+//        try{
+//            if(jwtFilter.isUser ()){
+//                Optional<NewUser> optional =  userDao.findAllById(Integer.parseInt (requestMap.get ("id")));
+//                if(!optional.isEmpty()){
+//                    UserDao.updateStatus(requestMap.get ("status"), Integer.parseInt (requestMap.get ("id")));
+//                    //UserUtils.getResponseEntity("");
+//                    return UserUtils.getResponseEntity ("User Status Updated Successfullt",HttpStatus.OK);
+//                }
+//                else{
+//                    UserUtils.getResponseEntity ("User Entity Present",HttpStatus.OK);
+//                }
+//
+//            }
+//            else {
+//                //return UserUtils.getResponseEntity (UserUtils.WENT_SOMETHING_WRONG,HttpStatus.UNAUTHORIZED);
+//                return UserUtils.getResponseEntity(UserConstents.UNAUTHORIZED_ACCESS, HttpStatus.UNAUTHORIZED);
+//            }
+//
+//        } catch (Exception ex) {
+//            ex.printStackTrace ();
+//        };
+//        return UserUtils.getResponseEntity (UserConstents.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     //@Override
     public ResponseEntity<List<UserWrapper>> getAllUser() {
