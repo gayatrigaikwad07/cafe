@@ -88,6 +88,7 @@ import com.inn.cafe.com.inn.cafe.JWT.JwtFilter;
 import com.inn.cafe.com.inn.cafe.JWT.JwtUtil;
 import com.inn.cafe.com.inn.cafe.POJO.NewUser;
 import com.inn.cafe.com.inn.cafe.Service.UserService;
+import com.inn.cafe.com.inn.cafe.Utils.EmailUtils;
 import com.inn.cafe.com.inn.cafe.Utils.UserUtils;
 import com.inn.cafe.com.inn.cafe.Wrapper.UserWrapper;
 import com.inn.cafe.com.inn.cafe.constents.UserConstents;
@@ -129,6 +130,12 @@ public class UserServiceImpl implements UserService {
 
     private JwtUtil jwtUtil;
     private UserDao userRepository;
+
+    @Autowired
+    EmailUtils emailUtils;
+
+    private String NewUser;
+
 
 
 // Only for debugging; remove in production
@@ -194,12 +201,14 @@ public class UserServiceImpl implements UserService {
 //    @Override
 //    public ResponseEntity<String> update(Map<String, String> requestMap) {
 //        try{
-//            if(jwtFilter.isUser ()){
+//            if(jwtFilter.isAdmin ()){
 //                Optional<NewUser> optional =  userDao.findAllById(Integer.parseInt (requestMap.get ("id")));
 //                if(!optional.isEmpty()){
 //                    UserDao.updateStatus(requestMap.get ("status"), Integer.parseInt (requestMap.get ("id")));
+//                    sendMailToAllAdmin(requestMap.get ("status"), UserDao.getAllAdmin());
+//
 //                    //UserUtils.getResponseEntity("");
-//                    return UserUtils.getResponseEntity ("User Status Updated Successfullt",HttpStatus.OK);
+//                    return UserUtils.getResponseEntity ("User Status Updated Successfully",HttpStatus.OK);
 //                }
 //                else{
 //                    UserUtils.getResponseEntity ("User Entity Present",HttpStatus.OK);
@@ -216,6 +225,9 @@ public class UserServiceImpl implements UserService {
 //        };
 //        return UserUtils.getResponseEntity (UserConstents.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
 //    }
+
+    private void sendMailToAllAdmin(String status, List<String> allAdmin) {
+    }
 
     //@Override
     public ResponseEntity<List<UserWrapper>> getAllUser() {
@@ -239,6 +251,29 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<String> update(Map<String, String> requestMap) {
         return null;
     }
+
+    private  void sendMailToAllAdmin(String status,String email,List<String>allAdmin){
+        allAdmin.remove (jwtFilter.getCurrentUser());
+        if(status != null && status.equalsIgnoreCase ("true")){
+            emailUtils.sendSimpleMessage (jwtFilter.getCurrentUser (), "Account Apprroved", "NewUser :-" + NewUser  + "\n is approved by \nADMIN" + jwtFilter.getCurrentUser(),allAdmin());
+        }
+        else{
+            emailUtils.sendSimpleMessage (jwtFilter.getCurrentUser (), "Account Disable", "NewUser :-" + NewUser  + "\n is approved by \nADMIN" + jwtFilter.getCurrentUser(),allAdmin());
+
+
+        }
+
+    }
+
+    private List<String> allAdmin() {
+        return null;
+    }
+
+
+//    @Override
+//    public ResponseEntity<String> update(Map<String, String> requestMap) {
+//        return null;
+//    }
 
 
 }

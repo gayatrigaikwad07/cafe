@@ -21,6 +21,10 @@ public interface UserDao extends JpaRepository<NewUser,Integer> {
     static void updateStatus(@Param("status") String status, @Param("id") Integer id) {
     }
 
+    static List<String> getAllAdmin() {
+        return null;
+    }
+
 //    static Integer updateStatus(@Param("status") String status, @Param("id") Integer id) {
 //        return null;
 //    }

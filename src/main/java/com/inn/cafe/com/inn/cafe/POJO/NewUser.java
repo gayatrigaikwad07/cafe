@@ -15,6 +15,8 @@ import java.util.Collections;
 @NamedQuery(name = "NewUser.findByEmailId", query="select u from NewUser u where u.email=:email")
 @NamedQuery (name= "NewUser.getAllUser", query="select new com.inn.cafe.com.inn.cafe.Wrapper.UserWrapper(u.id,u.name,u.email,u.contactNumber, u.status) from NewUser u where u.role='NewUser'" )
 @NamedQuery (name = "NewUser.updateStatus", query  ="update NewUser u set u.status=: status where u.id=:id")
+@NamedQuery (name= "NewUser.getAllAdmin", query="select u.email from NewUser u where u.role='admin'" )
+
 //
 @Data
 @Entity
