@@ -100,6 +100,17 @@ public class UserRestImpl implements UserRest {
         return UserUtils.getResponseEntity (UserConstents,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
+        try{
+            return UserService.forgotPassword(requestMap);
+
+        }
+        catch(Exception ex){
+            ex.printStackTrace ();
+        }
+        return UserUtils.getResponseEntity (UserConstents,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
 }

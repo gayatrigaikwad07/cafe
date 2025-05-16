@@ -9,6 +9,10 @@ import java.util.Map;
 public interface UserService {
 
 
+//    static ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
+//        return null;
+//    }
+
     ResponseEntity<String> login(Map<String,String>RequestMap);
 
     ResponseEntity<String> signUp(Map<String, String> requestMap);
@@ -27,5 +31,11 @@ public interface UserService {
         return null;
     }
 
-     ///ResponseEntity<String> changePassword(Map<String, String> requestMap);
+    static ResponseEntity<String> forgotPassword(Map<String, String> requestMap){
+        return null;
+    }
+
+    //static ResponseEntity<String> forgotPassword(Map<String, String> requestMap);
+
+    ///ResponseEntity<String> changePassword(Map<String, String> requestMap);
 }

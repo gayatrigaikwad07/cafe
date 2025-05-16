@@ -83,6 +83,7 @@
 
 package com.inn.cafe.com.inn.cafe.ServiceImpl;
 
+import com.google.common.base.Strings;
 import com.inn.cafe.com.inn.cafe.JWT.CustomerUserDetailService;
 import com.inn.cafe.com.inn.cafe.JWT.JwtFilter;
 import com.inn.cafe.com.inn.cafe.JWT.JwtUtil;
@@ -95,6 +96,7 @@ import com.inn.cafe.com.inn.cafe.constents.UserConstents;
 import com.inn.cafe.com.inn.cafe.dao.UserDao;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.type.descriptor.java.ObjectJavaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -302,6 +304,24 @@ public class UserServiceImpl implements UserService {
 //    public ResponseEntity<String> update(Map<String, String> requestMap) {
 //        return null;
 //    }
+
+    //@Override
+    public ResponseEntity<String> forgotPassword(Map<String, String> requestMap){
+        try{
+            NewUser newUser = userDao.findByEmail (requestMap.get("email"));
+            if(!Object.isNull(newUser) && !Strings.isNullOrEmpty (newUser.getEmail ())){
+                emailUtils.forgotMail (newUser.getEmail (), "Cretential by cafe Management", newUser.getPassword ());
+
+                return UserUtils.getResponseEntity ("Check your mail :",HttpStatus.OK);
+
+            }
+
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return UserUtils.getResponseEntity (UserConstents.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
 }
