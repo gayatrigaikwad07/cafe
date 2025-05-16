@@ -44,7 +44,7 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = request.getServletPath();
-        if (path.contains("/user/signup") || path.contains("/user/login") || path.contains("/user/forgotPassword") || path.contains("/user/get") ) {
+        if (path.contains("/user/signup") || path.contains("/user/login") || path.contains("/user/forgotPassword") || path.contains("/user/get") || path.contains ("/user/token") || path.contains ("/user/changePassword")) {
             filterChain.doFilter(request, response);
             return;
         }

@@ -19,20 +19,21 @@ public interface UserRest {
     public ResponseEntity<String> signUp(@RequestBody(required = true) Map<String, String> requestMap);
 
     @PostMapping(path = "/login")
-    public ResponseEntity<String> login(@RequestBody(required=true) Map<String,String>requestMap);
+    public ResponseEntity<String> login(@RequestBody(required = true) Map<String, String> requestMap);
 
     @GetMapping(path = "/get")
     public default ResponseEntity<List<UserWrapper>> getAllUser() {
         return null;
     }
-    @PostMapping(path ="/update")
-    public  ResponseEntity<String> update(@RequestBody(required = true) Map<String,String> requestMap);
 
-//    @PostMapping(path = "/update")
-//    //public ResponseEntity<String> update(RequestBody(required=true)Map
-//
-//    public ResponseEntity<String> update(Map<String, String> requestMap);
-//    //<String,String>requestMap);
+    @PostMapping(path = "/update")
+    public ResponseEntity<String> update(@RequestBody(required = true) Map<String, String> requestMap);
 
-    //ResponseEntity<String> update(Map<String, String> requestMap)<String,String> requestMap);
+    @GetMapping(path = "/checkToken")
+    ResponseEntity<String> checkToken();
+
+    @PostMapping(path = "/changePassword")
+    ResponseEntity<String>changePassword(@RequestBody Map<String, String> requestMap);
+
 }
+

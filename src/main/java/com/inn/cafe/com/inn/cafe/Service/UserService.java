@@ -14,16 +14,18 @@ public interface UserService {
     ResponseEntity<String> signUp(Map<String, String> requestMap);
 
     ResponseEntity<String> log(Map<String, String> requestMap);
-    //ResponseEntity<String> get(Map<String, String> requestMap);
-
-    //ResponseEntity<String> update(Map<String, String> requestMap);
-
-
-    //public ResponseEntity<List<UserWrapper>> getAllUser();
-
+    //ResponseEntity<List<UserWrapper>> getAllUser();
     static ResponseEntity<List<UserWrapper>> getAllUser() {
         return null;
     }
+    ResponseEntity<String> checkToken();
+
 
     ResponseEntity<String> update(Map<String, String> requestMap);
+
+    static ResponseEntity<String> changePassword(Map<String, String> requestMap) {
+        return null;
+    }
+
+     ///ResponseEntity<String> changePassword(Map<String, String> requestMap);
 }

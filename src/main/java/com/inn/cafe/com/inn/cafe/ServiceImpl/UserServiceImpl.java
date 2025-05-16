@@ -104,7 +104,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -247,6 +246,7 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<List<UserWrapper>> (new ArrayList<> (), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
     @Override
     public ResponseEntity<String> update(Map<String, String> requestMap) {
         return null;
@@ -267,6 +267,34 @@ public class UserServiceImpl implements UserService {
 
     private List<String> allAdmin() {
         return null;
+    }
+
+    @Override
+    public ResponseEntity<String> checkToken() {
+        return UserUtils.getResponseEntity ("true", HttpStatus.OK);
+    }
+
+    //@Override
+    public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
+        try{
+            NewUser newUserObj = userDao.findByEmail (jwtFilter.getCurrentUser ());
+            if(!newUserObj.equals (null)){
+                if(newUserObj.getPassword ().equals (requestMap.get ("oldPassword"))){
+                    newUserObj.setPassword(requestMap.get("newPassword"));
+                    userDao.save (newUserObj);
+                    return UserUtils.getResponseEntity ("Password Updated Successfully ",HttpStatus.OK);
+
+                }
+                return UserUtils.getResponseEntity ("Incorrect", HttpStatus.BAD_REQUEST);
+
+            }
+            return UserUtils.getResponseEntity(UserConstents.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+        catch (Exception ex){
+            ex.printStackTrace ();
+        }
+        return UserUtils.getResponseEntity (UserConstents.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
