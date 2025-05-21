@@ -106,6 +106,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -308,11 +309,16 @@ public class UserServiceImpl implements UserService {
     //@Override
     public ResponseEntity<String> forgotPassword(Map<String, String> requestMap){
         try{
-            NewUser newUser = userDao.findByEmail (requestMap.get("email"));
-            if(!Object.isNull(newUser) && !Strings.isNullOrEmpty (newUser.getEmail ())){
-                emailUtils.forgotMail (newUser.getEmail (), "Credential by cafe Management", newUser.getPassword ());
+            NewUser newUser = userDao.findByEmail(requestMap.get("email"));
+            if (Objects.nonNull(newUser) && !Strings.isNullOrEmpty(newUser.getEmail())) {
+                emailUtils.forgotMail(newUser.getEmail(), "Credential by Cafe Management", newUser.getPassword());
+                return UserUtils.getResponseEntity("Check your mail:", HttpStatus.OK);
 
-                return UserUtils.getResponseEntity ("Check your mail :",HttpStatus.OK);
+//            NewUser newUser = userDao.findByEmail (requestMap.get("email"));
+//            if(!Object.isNull(newUser) && !Strings.isNullOrEmpty (newUser.getEmail ())){
+//                emailUtils.forgotMail (newUser.getEmail (), "Credential by cafe Management", newUser.getPassword ());
+//
+//                return UserUtils.getResponseEntity ("Check your mail :",HttpStatus.OK);
 
             }
 
@@ -321,6 +327,9 @@ public class UserServiceImpl implements UserService {
             ex.printStackTrace();
         }
         return UserUtils.getResponseEntity (UserConstents.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+
+
+
     }
 
 
