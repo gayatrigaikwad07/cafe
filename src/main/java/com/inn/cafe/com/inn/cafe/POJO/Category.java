@@ -7,6 +7,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
 
+@NamedQuery (name = "Category.getAllCategory" ,query ="select category c from c")
+
 @Data
 @Entity
 @DynamicUpdate
@@ -16,7 +18,10 @@ import java.io.Serializable;
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Column(name ="id")
     private Integer id;
+
+    @Column(name = "name")
     private String name;
 
 

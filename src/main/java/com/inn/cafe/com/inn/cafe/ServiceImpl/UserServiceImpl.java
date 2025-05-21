@@ -310,7 +310,7 @@ public class UserServiceImpl implements UserService {
         try{
             NewUser newUser = userDao.findByEmail (requestMap.get("email"));
             if(!Object.isNull(newUser) && !Strings.isNullOrEmpty (newUser.getEmail ())){
-                emailUtils.forgotMail (newUser.getEmail (), "Cretential by cafe Management", newUser.getPassword ());
+                emailUtils.forgotMail (newUser.getEmail (), "Credential by cafe Management", newUser.getPassword ());
 
                 return UserUtils.getResponseEntity ("Check your mail :",HttpStatus.OK);
 
